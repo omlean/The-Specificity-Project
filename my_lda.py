@@ -14,6 +14,7 @@ class MyCorpus():
         self.dictionary = dictionary
         self.clean_function = clean_function
         if self.dictionary is not None:
+            _ = self.dictionary[0]
             self.id2word = self.dictionary.id2token
     
     def __len__(self):
@@ -22,6 +23,7 @@ class MyCorpus():
     def make_dictionary(self, save_directory=None, file_name="dictionary"):
         print("Creating dictionary...")
         self.dictionary = Dictionary((self.clean_function(get_text(file)) for file in tqdm(filelist)))
+        _ = self.dictionary[0]
         print("...complete")
         self.id2word = self.dictionary.id2token
         print('id2word created')
@@ -44,5 +46,5 @@ class MyCorpus():
         return self.dictionary.doc2bow(text)
     
     def __iter__(self):
-        for doc_path in doc_path_list:
+        for doc_path in self.doc_path_list:
             yield self.get_doc_bow(doc_path)
