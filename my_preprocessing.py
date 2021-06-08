@@ -37,7 +37,7 @@ def clean_text(string, split_hyphenated=False):
     
 #     Remove stopwords
     stop_words = stopwords.words('english')
-    for word in ['pp', 'viz', 'vs', 'ie', 'eg']: # add words to stopword list
+    for word in ['pp', 'viz', 'vs', 'ie', 'eg', 'et', 'al']: # add words to stopword list
         stop_words.append(word)
     s = ' '.join([word for word in s.split() if word not in stop_words])
 

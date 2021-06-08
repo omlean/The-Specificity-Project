@@ -1,4 +1,7 @@
+import pandas as pd
+import numpy as np
 from tqdm import tqdm
+import os
 
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
@@ -22,7 +25,7 @@ class MyCorpus():
     
     def make_dictionary(self, save_directory=None, file_name="dictionary"):
         print("Creating dictionary...")
-        self.dictionary = Dictionary((self.clean_function(get_text(file)) for file in tqdm(filelist)))
+        self.dictionary = Dictionary((self.clean_function(get_text(file)) for file in tqdm(self.doc_path_list)))
         _ = self.dictionary[0]
         print("...complete")
         self.id2word = self.dictionary.id2token
@@ -34,17 +37,45 @@ class MyCorpus():
     
     def filter_extremes(self, no_below=5, no_above=0.5, keep_n=100000, keep_tokens=None, save_directory=None, file_name="dictionary"):
         self.dictionary.filter_extremes(no_below=no_below, no_above=no_above, keep_n=keep_n, keep_tokens=keep_tokens)
+        _ = self.dictionary[0]
+        self.id2word = self.dictionary.id2token
         if save_directory is not None:
             self.dict_save_path = save_directory + file_name + '.dict'
             self.dictionary.save(self.dict_save_path)
             print(f"Saved trimmed dictionary to {self.dict_save_path}")
             
-        
-    def get_doc_bow(self, path):
+    def doc2bow(self, string):
+        doc = self.clean_function(string)
+        return self.dictionary.doc2bow(doc)
+    
+    def path2bow(self, path):
         with open(path, 'r') as file:
             text = self.clean_function(file.read())
         return self.dictionary.doc2bow(text)
     
     def __iter__(self):
         for doc_path in self.doc_path_list:
-            yield self.get_doc_bow(doc_path)
+            yield self.path2bow(doc_path)
+            
+#########################################################################################
+
+def make_doc_path_list(directory, extension='.txt'):
+    path_list = [os.path.join(directory, file) for file in os.listdir(directory) if file.endswith(extension)]
+    return path_list
+
+#########################################################################################
+
+def doc_topics(corpus, model):
+    """Returns DataFrame of topic predictions for all documents in the corpus"""
+    num_topics = model.get_topics().shape[0]
+    data = np.zeros((len(corpus), num_topics))
+    counter = 0
+    for doc in tqdm(corpus):
+        preds = model[doc]
+        for num, val in preds:
+            data[counter, num] = val
+        counter += 1
+    df = pd.DataFrame(data=data, index=corpus.doc_path_list)
+    return df
+
+#########################################################################################

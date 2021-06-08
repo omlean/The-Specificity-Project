@@ -1,4 +1,5 @@
 import pandas as pd
+import pickle
 
 
 def get_text(file):
@@ -9,4 +10,10 @@ def get_text(file):
         text = file.read()
     return text
 
+#########################################################################################
+
+def load_model(path):
+    with open(path, 'rb') as file:
+        return pickle.load(file)
+    
 #########################################################################################
