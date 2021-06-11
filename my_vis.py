@@ -34,7 +34,8 @@ def word_report(word, corpus, model, top_topics=5):
     word_id = corpus.dictionary.token2id[word]
     term_topics = model.get_term_topics(word_id, minimum_probability=0)
     term_topics.sort(key=lambda x: x[1], reverse=True)
-    for i in range(top_topics):
+    j = top_topics if top_topics <= len(term_topics) else len(term_topics)
+    for i in range(j):
         topic, prob = term_topics[i]
         print(f'Topic {topic}: {prob}:')
         topic_words = model.print_topic(topic, topn=10)
