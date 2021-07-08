@@ -14,7 +14,7 @@ def drop_non_research(df):
     return df[df.title.apply(lambda x: x not in drop_titles)]
 
 
-def clean_text(string, split_hyphenated=False):
+def clean_text(string, split_hyphenated=True):
     """Cleans and tokenizes input text"""
     s = string.lower() # lowercase
     
