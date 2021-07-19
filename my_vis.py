@@ -1,5 +1,6 @@
 from tqdm import tqdm
 import re
+import pandas as pd
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -44,4 +45,32 @@ def word_report(word, corpus, model, top_topics=5):
             print(word)
         print('\n')
         
+#########################################################################################
+
+def word_compare(data, words, model, dictionary):
+    """Input: 
+    data [pd.DataFrame]: DataFrame
+    words [list]: List of words
+    model [Gensim LdaModel() object]
+    dictionary [Gensim dictionary object]: Dictionary used to train the model (must have dictionary.token2id attribute)
+    Output: Plot of p values per topic for each word in the list"""
+    
+    word_ids = []
+    wordlist = []
+    for word in words:
+        try:
+            word_ids.append(dictionary.token2id[word])
+            wordlist.append(word)
+        except KeyError:
+            print(f"'{word}' not found in dictionary - skipped")
+    word_topics = model.get_topics()[:,word_ids]
+    topic_labels = [col for col in data.columns if ":" in col]
+    data = pd.DataFrame(word_topics, columns=wordlist, index=topic_labels).sort_values(words[0], ascending=False)
+    
+    data.plot.bar(figsize=(20,10))
+    plt.ylabel('p', size=20)
+    plt.xticks(size=15)
+    plt.legend(prop={'size': 18})
+    plt.show()
+    
 #########################################################################################

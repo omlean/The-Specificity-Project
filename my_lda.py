@@ -2,9 +2,14 @@ import pandas as pd
 import numpy as np
 from tqdm import tqdm
 import os
+import pickle
 
 from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
+
+import pyLDAvis
+import pyLDAvis.gensim_models as gensimvis
+pyLDAvis.enable_notebook()
 
 from my_files import get_text
 
@@ -78,4 +83,25 @@ def doc_topics(corpus, model):
     df = pd.DataFrame(data=data, index=corpus.doc_path_list)
     return df
 
+#########################################################################################
+
+def make_pylda(path, corpus):
+    """
+    Generates and saves a PyLDAVis .html visualisation for the input LDA model.
+    Arguments:
+    path [str]: full path of .pkl gensim LDA model
+    corpus [MyCorpus() object]: corpus object with a dictionary accessible with corpus.dictionary"""
+    if not os.path.exists(path):
+        print("Input path doesn't exist")
+    else:
+        print("Loading model")
+        with open(path, 'rb') as file:
+            model = pickle.load(file)
+        print("Preparing gensimvis")
+        vis = gensimvis.prepare(model, corpus, corpus.dictionary, sort_topics=False)
+        print("Saving html")
+        html_path = path.replace(".pkl", ".html")
+        pyLDAvis.save_html(vis, html_path)
+        print("Complete")
+    
 #########################################################################################
