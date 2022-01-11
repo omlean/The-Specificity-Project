@@ -8,7 +8,7 @@ from gensim.corpora.dictionary import Dictionary
 from gensim.models.ldamodel import LdaModel
 
 import pyLDAvis
-import pyLDAvis.gensim_models as gensimvis
+import pyLDAvis.gensim as gensimvis
 pyLDAvis.enable_notebook()
 
 from my_files import get_text
