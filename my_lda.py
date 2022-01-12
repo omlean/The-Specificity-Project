@@ -11,7 +11,7 @@ import pyLDAvis
 import pyLDAvis.gensim as gensimvis
 pyLDAvis.enable_notebook()
 
-from my_files import get_text
+from my_files import get_text, load_model
 
 
 
@@ -117,5 +117,49 @@ def make_pylda(path, corpus):
         html_path = path.replace(".pkl", ".html")
         pyLDAvis.save_html(vis, html_path)
         print("Complete")
+    
+#########################################################################################
+
+def label_topics(model_id: str,
+                 dict_path: str = 'models/dictionary.dict',
+                 dest_folder: str = 'models'):
+
+    """Generates a csv file with topic ids and top words. Labels can be entered manually into the .csv file."""
+    
+    # check file doesn't already exist; raise an exception otherwise
+    filename = f'{model_id}_labels.csv'
+    dest_path = os.path.join(dest_folder, filename)
+    if os.path.exists(dest_path):
+        raise FileExistsError('File already exists at', dest_path)
+    
+    # load LDA model
+    model_path = f'models/{model_id}.pkl'
+    model = load_model(model_path)
+
+    # load dictionary
+    dictionary = Dictionary.load(dict_path)
+    
+    # initiate empty dataframe
+    df = pd.DataFrame(columns=['topic_no', 'top_words', 'label'])
+
+    num_topics = model.get_topics().shape[0]  # get number of topics
+    
+    for topic in range(num_topics):
+        word_freq_pairs = model.show_topic(topic)  # get list of tuples of top words and frequencies
+        
+        # add the top words to a list
+        top_words = []
+        for word, freq in word_freq_pairs:
+            top_words.append(word)
+        
+        # create a Series for addition to the DataFrame
+        row = {}
+        row['topic_no'] = topic
+        row['top_words'] = ', '.join(top_words)
+        row['label'] = ''
+        df = df.append(pd.Series(row), ignore_index=True)
+    
+    # save the DataFrame as a csv
+    df.to_csv(dest_path, index=False)
     
 #########################################################################################
