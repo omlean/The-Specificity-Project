@@ -1,0 +1,26 @@
+topic_no,top_words,label
+0,"eggs, birds, egg, young, breeding, offspring, females, body, mass, days",birds
+1,"population, age, growth, populations, mortality, dynamics, years, rates, density, birth",populations
+2,"theory, individuals, information, selection, probability, state, simple, problem, make, consider",
+3,"cells, cell, plate, normal, membrane, tissue, days, seen, nuclei, layer",cells
+4,"fish, breeding, sea, population, birds, food, year, individuals, marine, dispersal",marine ecology
+5,"growth, plant, plants, soil, populations, toads, population, body, morph, habitat",land ecology
+6,"seeds, plants, plant, pollen, seed, diversity, forest, soil, community, extinction",botany
+7,"nerve, stimulation, animals, muscle, fibres, normal, brain, rats, stimulus, activity",nerves
+8,"solution, potential, current, membrane, muscle, concentration, curve, potassium, constant, pressure",action potential
+9,"phylogenetic, sequences, tree, dna, taxa, phylogeny, populations, analyses, molecular, sequence",phylogenetics
+10,"years, food, scientific, subjects, social, subject, groups, men, human, age",human fertility
+11,"plate, fig, surface, vol, seen, wall, cuticle, development, formation, layer",microscopy
+12,"acid, water, oxygen, activity, solution, blood, concentration, ph, protein, temperature",blood
+13,"larvae, attack, prey, larva, puparium, insect, larval, insects, predator, instar",insects
+14,"temperature, climate, lake, water, area, rainfall, areas, years, climatic, lakes",climate
+15,"males, male, females, female, sperm, mating, selection, sexual, flies, eggs",sex
+16,"populations, genetic, population, luteum, marriages, samples, marriage, age, women, diversity",female reproduction
+17,"growth, strain, virus, strains, bacteria, medium, resistance, cells, culture, plants",microbiology
+18,"host, parasite, infected, infection, parasites, blood, days, hosts, immune, mice",parasites
+19,"calls, males, call, individuals, disease, vaccine, min, females, transmission, sound",animal calls
+20,"light, eye, visual, colour, intensity, field, vision, stimulus, red, eyes",vision
+21,"colonies, colony, workers, ovaries, bees, ovary, social, queen, ants, males",eusocial insects
+22,"spermatozoa, sperm, selection, genetic, semen, testes, testis, seminal, population, loci",male reproduction
+23,"chromosomes, dna, gene, genes, chromosome, pollen, fig, plants, rna, nuclear",genetics
+24,"muscle, tension, muscles, pressure, body, surface, contraction, heat, air, water",biomechanics
